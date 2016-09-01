@@ -1,14 +1,15 @@
 #%RAML 1.0
 title: New API
-mediaType: [ application/json, application/xml ]
+mediaType: application/json
 types:
     Pokemon:
         type: object
         properties:
             id: number
             name: string
+            last_encounter_time: datetime
             average_time_offset: number
-            encounter_time: number
+            total_encounter_time: number
             encoutner_rate: number
     Encounter:
         type: object
@@ -24,10 +25,14 @@ types:
             pokemon: Pokemon
 /encounters:
     get:
-        description: Return encounters of pokemon on map
+        description: Return encounters of pokemon in time range on map
         queryParameters:
             pokemon_id: number
-            area: string
+            swLat: number
+            swLng: number
+            neLat: number
+            neLng: number
+            fromtime: datetime
         responses:
             200:
                 body:
@@ -38,7 +43,9 @@ types:
     get:
         description: Get info of area
         queryParameters:
-            geohash: string
+            lat: number
+            lng: number
+            fromtime: datetime
         responses:
             200:
                 body:
@@ -47,12 +54,13 @@ types:
                       pokemons: Pokemon[]
 /nests:
     get:
-        description: Get nests of pokemon on map
+        description: Get nests of pokemon on map (Exclude common pokemons)
         queryParameters:
             swLat: number
             swLng: number
             neLat: number
             neLng: number
+            fromtime: datetime
         responses:
             200:
                 body:
