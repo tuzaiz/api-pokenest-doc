@@ -1,0 +1,63 @@
+#%RAML 1.0
+title: New API
+mediaType: [ application/json, application/xml ]
+types:
+    Pokemon:
+        type: object
+        properties:
+            id: number
+            name: string
+            average_time_offset: number
+            encounter_time: number
+            encoutner_rate: number
+    Encounter:
+        type: object
+        properties:
+            lat: number
+            lng: number
+            pokemon_id: number
+    Nest:
+        type: object
+        properties:
+            lat: number
+            lng: number
+            pokemon: Pokemon
+/encounters:
+    get:
+        description: Return encounters of pokemon on map
+        queryParameters:
+            pokemon_id: number
+            area: string
+        responses:
+            200:
+                body:
+                    application/json:
+                        properties:
+                            encounters: Encounter[]
+/area:
+    get:
+        description: Get info of area
+        queryParameters:
+            geohash: string
+        responses:
+            200:
+                body:
+                  application/json:
+                    properties: 
+                      pokemons: Pokemon[]
+/nests:
+    get:
+        description: Get nests of pokemon on map
+        queryParameters:
+            swLat: number
+            swLng: number
+            neLat: number
+            neLng: number
+        responses:
+            200:
+                body:
+                  application/json:
+                    properties:
+                        nests: Nest[]
+                
+      
