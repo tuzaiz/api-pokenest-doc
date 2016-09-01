@@ -1,5 +1,5 @@
 #%RAML 1.0
-title: New API
+title: Pokenest API
 mediaType: application/json
 types:
     Pokemon:
@@ -22,45 +22,47 @@ types:
         properties:
             lat: number
             lng: number
+            geohash: string
             pokemon: Pokemon
 /encounters:
     get:
-        description: Return encounters of pokemon in time range on map
+        description: Return encounter of pokemons in last 24h on map
         queryParameters:
             pokemon_id: number
             swLat: number
             swLng: number
             neLat: number
             neLng: number
-            fromtime: datetime
         responses:
             200:
                 body:
-                    application/json:
-                        properties:
-                            encounters: Encounter[]
+                  application/json:
+                    properties:
+                      encounters: Encounter[]
 /area:
     get:
-        description: Get info of area
+        description: Get info of area in last 24h
         queryParameters:
             lat: number
             lng: number
-            fromtime: datetime
         responses:
             200:
                 body:
                   application/json:
                     properties: 
-                      pokemons: Pokemon[]
+                        swLat: number
+                        swLng: number
+                        neLat: number
+                        neLng: number
+                        pokemons: Pokemon[]
 /nests:
     get:
-        description: Get nests of pokemon on map (Exclude common pokemons)
+        description: Get nests of pokemon on map in last 24h (Exclude common pokemons)
         queryParameters:
             swLat: number
             swLng: number
             neLat: number
             neLng: number
-            fromtime: datetime
         responses:
             200:
                 body:
